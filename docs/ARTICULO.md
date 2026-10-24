@@ -238,7 +238,7 @@ En local es un archivo en disco. Pero los secrets de GitHub y de Render
 solo guardan texto, no binarios. La solución es codificarlo en base64:
 
 ```bash
-base64 -w0 secure-connect-shortener.zip > bundle.b64
+base64 -w0 secure-connect-shortener-db.zip > bundle.b64
 ```
 
 y reconstruirlo en memoria al arrancar:
