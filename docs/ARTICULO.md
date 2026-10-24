@@ -18,7 +18,7 @@ está en el repositorio, pero lo que quiero contar aquí es el cambio mental
 que exige el modelado, porque es la parte que ningún tutorial de "hola
 mundo" te obliga a atravesar.
 
-- **Repositorio:** https://github.com/TU_USUARIO/astra-shortener
+- **Repositorio:** https://github.com/SEBACOR-13/astra-shortener
 - **Aplicación en vivo:** https://cortito.onrender.com
 
 ---
@@ -323,7 +323,7 @@ Si quieres mirar el código, el esquema CQL está comentado línea por línea
 en `app/schema.cql`, que es probablemente el archivo más útil del
 repositorio para alguien que esté empezando con Cassandra.
 
-- **Repositorio:** https://github.com/TU_USUARIO/astra-shortener
+- **Repositorio:** https://github.com/SEBACOR-13/astra-shortener
 - **Aplicación:** https://cortito.onrender.com
 
 *Trabajo del curso de Base de Datos II — Universidad Privada de Tacna.*

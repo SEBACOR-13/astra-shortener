@@ -106,7 +106,7 @@ camino a producción sea el pipeline.
 ## Ejecutar en local
 
 ```bash
-git clone https://github.com/<tu-usuario>/astra-shortener.git
+git clone https://github.com/SEBACOR-13/astra-shortener.git
 cd astra-shortener
 
 python -m venv .venv
