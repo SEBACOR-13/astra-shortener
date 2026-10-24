@@ -6,10 +6,10 @@
 # GitHub Actions, despues de que pasen las pruebas.
 services:
   - type: web
-    name: cortito
+    name: astra-shortener
     runtime: docker
     plan: free
-    region: oregon
+    region: ohio
     dockerfilePath: ./Dockerfile
     autoDeploy: false
     healthCheckPath: /health

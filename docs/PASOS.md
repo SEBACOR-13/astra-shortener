@@ -114,7 +114,7 @@ no existe el secret de Render. Es lo esperado; se arregla en el paso 5.
    | `ASTRA_DB_TOKEN` | tu token `AstraCS:...` |
    | `ASTRA_KEYSPACE` | `shortener` |
    | `ASTRA_SCB_B64` | ver abajo |
-   | `BASE_URL` | `https://cortito.onrender.com` |
+   | `BASE_URL` | `https://astra-shortener.onrender.com` |
 
    Para `ASTRA_SCB_B64`, genera el bundle en base64 — es una sola línea
    larguísima, cópiala entera:
@@ -150,7 +150,7 @@ En tu repositorio de GitHub → **Settings** → **Secrets and variables** →
 
 - Pestaña **Variables** → *New repository variable*:
   - Name: `APP_URL`
-  - Value: `https://cortito.onrender.com` (sin barra final)
+  - Value: `https://astra-shortener.onrender.com` (sin barra final)
 
 ---
 
@@ -176,7 +176,7 @@ recarga la app y el cambio está ahí. **Sin tocar ningún panel.**
 
 1. Abre `docs/ARTICULO.md` y reemplaza los dos marcadores:
    - `TU_USUARIO` → tu usuario de GitHub (aparece 2 veces)
-   - `https://cortito.onrender.com` → tu URL real de Render (aparece 3 veces)
+   - `https://astra-shortener.onrender.com` → tu URL real de Render (aparece 3 veces)
 2. Entra a <https://dev.to> con tu cuenta `sebacor13` → **Create Post**.
 3. Pulsa el ícono de ajustes y elige el **editor markdown**; pega el
    contenido completo del archivo, incluido el bloque `---` del principio

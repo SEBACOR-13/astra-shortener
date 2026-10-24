@@ -10,7 +10,7 @@ desplegada en **Render** mediante un pipeline de **GitHub Actions**.
 
 | | |
 |---|---|
-| **App en vivo** | `https://cortito.onrender.com` |
+| **App en vivo** | `https://astra-shortener.onrender.com` |
 | **Base de datos** | Apache Cassandra 4 vía Astra DB (serverless) |
 | **Nube** | Render (plan free) |
 | **Automatización** | GitHub Actions → deploy hook de Render |
@@ -145,7 +145,7 @@ ruff check app tests scripts
 Ejemplo:
 
 ```bash
-curl -X POST https://cortito.onrender.com/api/links \
+curl -X POST https://astra-shortener.onrender.com/api/links \
   -H "Content-Type: application/json" \
   -d '{"target_url": "https://www.upt.edu.pe/portal/"}'
 ```

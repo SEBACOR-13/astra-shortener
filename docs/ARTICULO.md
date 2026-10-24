@@ -19,7 +19,7 @@ que exige el modelado, porque es la parte que ningún tutorial de "hola
 mundo" te obliga a atravesar.
 
 - **Repositorio:** https://github.com/SEBACOR-13/astra-shortener
-- **Aplicación en vivo:** https://cortito.onrender.com
+- **Aplicación en vivo:** https://astra-shortener.onrender.com
 
 ---
 
@@ -324,6 +324,6 @@ en `app/schema.cql`, que es probablemente el archivo más útil del
 repositorio para alguien que esté empezando con Cassandra.
 
 - **Repositorio:** https://github.com/SEBACOR-13/astra-shortener
-- **Aplicación:** https://cortito.onrender.com
+- **Aplicación:** https://astra-shortener.onrender.com
 
 *Trabajo del curso de Base de Datos II — Universidad Privada de Tacna.*

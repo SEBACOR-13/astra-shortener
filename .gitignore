@@ -7,3 +7,4 @@ venv/
 secure-connect-*.zip
 .pytest_cache/
 .ruff_cache/
+*.b64
