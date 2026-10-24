@@ -1,0 +1,24 @@
+# Infraestructura como codigo (Render Blueprint).
+#
+# El servicio no se crea a mano en el panel: se declara aqui y Render lo
+# reconstruye a partir de este archivo. autoDeploy esta en false a
+# proposito para que el unico camino al despliegue sea el pipeline de
+# GitHub Actions, despues de que pasen las pruebas.
+services:
+  - type: web
+    name: cortito
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    autoDeploy: false
+    healthCheckPath: /health
+    envVars:
+      - key: ASTRA_DB_TOKEN
+        sync: false      # se carga como secret en el panel de Render
+      - key: ASTRA_SCB_B64
+        sync: false      # Secure Connect Bundle codificado en base64
+      - key: ASTRA_KEYSPACE
+        value: shortener
+      - key: BASE_URL
+        sync: false      # https://<tu-servicio>.onrender.com

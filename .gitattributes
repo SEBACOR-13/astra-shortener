@@ -1,0 +1,8 @@
+# El repositorio se construye en runners Linux (GitHub Actions) y dentro
+# de una imagen Docker. Normalizar a LF evita que los pasos de shell del
+# workflow fallen con errores del tipo $'\r': command not found.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.zip binary

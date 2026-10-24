@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+  <h1>Acorta una URL y mira sus clics en tiempo real</h1>
+  <p class="sub">
+    Cada enlace se guarda en dos tablas distintas y cada clic alimenta una
+    serie temporal mas un contador distribuido. Sin JOINs, sin indices.
+  </p>
+
+  <form class="form" method="post" action="/crear">
+    <input
+      type="url"
+      name="target_url"
+      placeholder="https://ejemplo.com/una-url-muy-larga"
+      required
+      autofocus>
+    <button type="submit">Acortar</button>
+  </form>
+
+  {% if error %}
+    <p class="error">Esa URL no es valida. Debe empezar con http:// o https://</p>
+  {% endif %}
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <h2>Mis enlaces</h2>
+    <span class="badge" title="Origen de los datos">backend: {{ backend }}</span>
+  </div>
+
+  {% if links %}
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Codigo</th>
+          <th>Destino</th>
+          <th>Creado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for link in links %}
+        <tr>
+          <td><code>{{ link.code }}</code></td>
+          <td class="trunc" title="{{ link.target_url }}">{{ link.target_url }}</td>
+          <td>{{ link.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td><a class="link" href="/s/{{ link.code }}">estadisticas</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="hint">
+      Esta lista sale de <code>links_by_owner</code>, ordenada por
+      <code>created_at DESC</code> directamente desde disco.
+    </p>
+  {% else %}
+    <p class="vacio">Todavia no has creado ningun enlace.</p>
+  {% endif %}
+</section>
+{% endblock %}

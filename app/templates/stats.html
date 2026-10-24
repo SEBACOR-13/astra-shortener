@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Estadisticas de {{ link.code }}{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1 class="codigo">{{ link.code }}</h1>
+
+  <div class="short">
+    <input id="short" type="text" value="{{ short_url }}" readonly>
+    <a class="btn" href="/{{ link.code }}" target="_blank" rel="noopener">Probar</a>
+  </div>
+
+  <p class="destino">
+    Redirige a <a href="{{ link.target_url }}" rel="noopener nofollow">{{ link.target_url }}</a>
+  </p>
+
+  <div class="metricas">
+    <div class="metrica">
+      <span class="numero">{{ total }}</span>
+      <span class="etiqueta">clics totales</span>
+      <span class="fuente">tabla <code>click_counts</code> (counter)</span>
+    </div>
+    <div class="metrica">
+      <span class="numero">{{ clicks|length }}</span>
+      <span class="etiqueta">clics recientes</span>
+      <span class="fuente">tabla <code>clicks_by_code</code></span>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Ultimos clics</h2>
+
+  {% if clicks %}
+    <table class="tabla">
+      <thead>
+        <tr><th>Momento (UTC)</th><th>Origen</th><th>Agente</th></tr>
+      </thead>
+      <tbody>
+        {% for click in clicks %}
+        <tr>
+          <td>{{ click.clicked_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+          <td>{{ click.referrer or 'directo' }}</td>
+          <td class="trunc" title="{{ click.user_agent }}">{{ click.user_agent or '-' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="hint">
+      Orden descendente sin <code>ORDER BY</code> en la consulta: lo impone
+      el <code>CLUSTERING ORDER BY (clicked_at DESC)</code> de la tabla.
+    </p>
+  {% else %}
+    <p class="vacio">Nadie ha abierto este enlace todavia. Pulsa "Probar".</p>
+  {% endif %}
+
+  <p><a class="link" href="/">&larr; volver</a></p>
+</section>
+{% endblock %}

@@ -1,0 +1,95 @@
+# Pipeline de integracion y despliegue continuo.
+#
+#   push a main  ->  lint  ->  pruebas  ->  deploy en Render  ->  verificacion
+#
+# Nadie toca un panel ni sube archivos a mano: el unico gesto manual es
+# el git push. Si las pruebas fallan, el deploy no llega a ejecutarse.
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  pruebas:
+    name: Lint y pruebas
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements-dev.txt
+
+      - name: Revisar estilo con ruff
+        run: ruff check app tests scripts
+
+      - name: Ejecutar la suite de pruebas
+        run: pytest -v
+
+      - name: Validar que la imagen Docker construye
+        run: docker build -t cortito:${{ github.sha }} .
+
+  desplegar:
+    name: Desplegar en Render
+    runs-on: ubuntu-latest
+    needs: pruebas
+    # Solo desde main: un pull request se prueba, pero no se publica.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+
+    steps:
+      - name: Disparar el deploy hook de Render
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "Falta el secret RENDER_DEPLOY_HOOK_URL."
+            exit 1
+          fi
+          echo "Solicitando despliegue a Render..."
+          codigo=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$HOOK")
+          echo "Render respondio HTTP $codigo"
+          [ "$codigo" = "200" ] || exit 1
+
+      - name: Esperar a que el servicio quede sano
+        env:
+          APP_URL: ${{ vars.APP_URL }}
+        run: |
+          if [ -z "$APP_URL" ]; then
+            echo "No hay variable APP_URL; se omite la verificacion."
+            exit 0
+          fi
+
+          echo "Verificando $APP_URL/health"
+          for intento in $(seq 1 30); do
+            respuesta=$(curl -fsS "$APP_URL/health" 2>/dev/null || true)
+            if echo "$respuesta" | grep -q '"status":"ok"'; then
+              echo "Servicio sano tras $intento intento(s): $respuesta"
+              echo "$respuesta" | grep -q '"backend":"astra"' \
+                && echo "Conectado a Astra DB." \
+                || echo "AVISO: el servicio respondio, pero sin backend Astra."
+              exit 0
+            fi
+            echo "  intento $intento: aun no responde, reintentando en 10s"
+            sleep 10
+          done
+
+          echo "El servicio no quedo sano tras 5 minutos."
+          exit 1
+
+      - name: Resumen del despliegue
+        if: always()
+        run: |
+          echo "### Despliegue" >> $GITHUB_STEP_SUMMARY
+          echo "- Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Destino: ${{ vars.APP_URL }}" >> $GITHUB_STEP_SUMMARY

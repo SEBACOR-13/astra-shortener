@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Acortador sobre Cassandra{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/">
+      <span class="dot"></span> cortito
+      <small>URLs sobre Apache Cassandra</small>
+    </a>
+  </header>
+
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="foot">
+    <p>
+      Base de Datos II &middot; Astra DB (Cassandra) + Render &middot;
+      despliegue automatizado con GitHub Actions
+    </p>
+  </footer>
+</body>
+</html>
